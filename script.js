@@ -29,26 +29,30 @@ const disableButtons = () => {
 
 const checkWinner = () => {
   console.log("inside check patterns");
+  let winnerFound = false;
 
-  winningPatterns.forEach((pattern) => {
+  for (let pattern of winningPatterns) {
     const tex1 = boxes[pattern[0]].innerText;
     const tex2 = boxes[pattern[1]].innerText;
     const tex3 = boxes[pattern[2]].innerText;
 
-    if (tex1 != "" && tex2 != "" && tex3 != "") {
-      if (tex1 === tex2 && tex2 === tex3) {
-        console.log("inside in");
-        
-        winnerText.classList.remove("hide");
-        heading.innerText = `Congratulations!\n ${tex1} has won`;
-        disableButtons();
-        return;
-      }else if (moves == 9) {
-        heading.innerText = `It's a Draw`;
-        return;
-      }
+    if (tex1 !== "" && tex1 === tex2 && tex2 === tex3) {
+      console.log("Winner found!");
+      winnerText.classList.remove("hide");
+      heading.innerText = `Congratulations!\n ${tex1} has won`;
+      disableButtons();
+      winnerFound = true;
+      gameActive = false;
+      return; 
     }
-  });
+  }
+
+  if (!winnerFound && moves === 9) {
+    console.log("It's a draw!");
+    heading.innerText = `It's a Draw!`;
+    winnerText.classList.remove("hide"); 
+    gameActive = false;
+  }
 };
 
 const resetButtons = () => {
